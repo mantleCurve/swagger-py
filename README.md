@@ -4,17 +4,6 @@ About
 This is a Python 3 compatible fork of [Swagger.py](https://github.com/digium/swagger-py), a Python library for using
 [Swagger](https://developers.helloreverb.com/swagger/) defined API's.
 
-Swagger itself is best described on the Swagger home page:
-
-> Swagger is a specification and complete framework implementation for
-> describing, producing, consuming, and visualizing RESTful web
-> services.
-
-The [Swagger specification](https://github.com/wordnik/swagger-core/wiki) defines
-how API's may be described using Swagger.
-
-Swagger.py also supports a WebSocket extension, allowing a WebSocket to
-be documented, and auto-generated WebSocket client code.
 
 Usage
 -----

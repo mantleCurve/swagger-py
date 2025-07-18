@@ -24,7 +24,7 @@ Install the latest release from PyPI.
 
 ::
 
-    $ pip install swaggerpy
+    $ pip install git+https://github.com/mantleCurve/swagger-py
 
 Or install from source using the ``setup.py`` script.
 

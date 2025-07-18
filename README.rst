@@ -1,7 +1,7 @@
 About
 -----
 
-Swagger.py is a Python library for using
+This is a Python 3 compatible fork of `Swagger.py <https://github.com/digium/swagger-py>`__, a Python library for using
 `Swagger <https://developers.helloreverb.com/swagger/>`__ defined API's.
 
 Swagger itself is best described on the Swagger home page:
@@ -24,13 +24,21 @@ Install the latest release from PyPI.
 
 ::
 
-    $ sudo pip install swaggerpy
+    $ pip install swaggerpy
 
 Or install from source using the ``setup.py`` script.
 
 ::
 
-    $ sudo ./setup.py install
+    $ ./setup.py install
+
+Requirements
+-----------
+
+- Python 3.6 or later
+- httpretty>=1.1.4
+- requests>=2.28.0
+- websocket-client>=1.6.0
 
 API
 ===
@@ -43,7 +51,7 @@ Interface <https://wiki.asterisk.org/wiki/display/AST/Asterisk+12+ARI>`__
 
 .. code:: Python
 
-    #!/usr/bin/env python
+    #!/usr/bin/env python3
 
     import json
 
@@ -73,17 +81,6 @@ swagger-codegen
 
 There are the beginnings of a Mustache-based code generator, but it's
 not functional... yet.
-
-.. Inspired by the original [swagger-codegen][] project, templates are
-   written using [Mustache][] templates ([Pystache][], specifically).
-   There are several important differences.
-
-    * The model that is fed into the mustache templates is almost
-      identical to Swagger's API resource listing and API declaration
-      model. The differences are listed [below](#model).
-    * The templates themselves are completely self contained, with the
-      logic to enrich the model being specified in `translate.py` in the
-      same directory as the `*.mustache` files.
 
 Data model
 ==========
@@ -119,10 +116,8 @@ To keep things isolated, I also recommend installing (and using)
 
 ::
 
-    $ sudo pip install virtualenv
-    $ mkdir -p ~/virtualenv
-    $ virtualenv ~/virtualenv/swagger
-    $ . ~/virtualenv/swagger/bin/activate
+    $ python3 -m venv venv
+    $ source venv/bin/activate
 
 `Setuptools <http://pypi.python.org/pypi/setuptools>`__ is used for
 building. `Nose <http://nose.readthedocs.org/en/latest/>`__ is used
@@ -135,9 +130,8 @@ the code coverage report. HTML versions of the reports are put in
 ::
 
     $ ./setup.py develop   # prep for development (install deps, launchers, etc.)
-    $ ./setup.py nosetests # run unit tests
+    $ python3 -m unittest discover -s swaggerpy_test -p "*_test.py" -v  # run unit tests
     $ ./setup.py bdist_egg # build distributable
-
 
 
 License

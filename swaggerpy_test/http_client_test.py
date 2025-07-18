@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 import base64
 
 import unittest
@@ -37,7 +37,7 @@ class SynchronousClientTestCase(unittest.TestCase):
         self.assertEqual('application/x-www-form-urlencoded',
                          httpretty.last_request().headers['content-type'])
         self.assertEqual("foo=bar",
-                         httpretty.last_request().body)
+                         httpretty.last_request().body.decode('utf-8'))
 
     @httpretty.activate
     def test_basic_auth(self):
@@ -53,7 +53,8 @@ class SynchronousClientTestCase(unittest.TestCase):
         self.assertEqual('expected', resp.text)
         self.assertEqual({'foo': ['bar']},
                          httpretty.last_request().querystring)
-        self.assertEqual('Basic %s' % base64.b64encode("unit:peekaboo"),
+        auth_string = base64.b64encode(b"unit:peekaboo").decode('ascii')
+        self.assertEqual(f'Basic {auth_string}',
                          httpretty.last_request().headers.get('Authorization'))
 
     @httpretty.activate

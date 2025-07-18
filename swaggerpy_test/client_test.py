@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 #
 # Copyright (c) 2013, Digium, Inc.
@@ -84,7 +84,7 @@ class ClientTest(unittest.TestCase):
 
         resp = self.uut.pet.deletePet(petId=1234)
         self.assertEqual(requests.codes.no_content, resp.status_code)
-        self.assertEqual('', resp.content)
+        self.assertEqual(b'', resp.content)
 
     def setUp(self):
         # Default handlers for all swagger.py access

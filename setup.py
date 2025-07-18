@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 #
 # Copyright (c) 2013, Digium, Inc.
@@ -28,10 +28,15 @@ setup(
         "Topic :: Software Development :: Libraries :: Python Modules",
         "License :: OSI Approved :: BSD License",
         "Operating System :: OS Independent",
-        "Programming Language :: Python",
+        "Programming Language :: Python :: 3",
+        "Programming Language :: Python :: 3.6",
+        "Programming Language :: Python :: 3.7",
+        "Programming Language :: Python :: 3.8",
+        "Programming Language :: Python :: 3.9",
     ],
-    tests_require=["nose", "tissue", "coverage", "httpretty"],
-    install_requires=["requests", "websocket-client"],
+    python_requires='>=3.6',
+    tests_require=["nose", "coverage", "httpretty>=1.1.4"],
+    install_requires=["requests>=2.25.0", "websocket-client>=1.0.0"],
     entry_points="""
     [console_scripts]
     swagger-codegen = swaggerpy.codegen:main

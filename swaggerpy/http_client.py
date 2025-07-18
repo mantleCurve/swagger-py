@@ -4,8 +4,7 @@
 # Copyright (c) 2013, Digium, Inc.
 #
 
-"""HTTP client abstractions.
-"""
+"""HTTP client abstractions."""
 
 import logging
 import requests
@@ -17,14 +16,11 @@ log = logging.getLogger(__name__)
 
 
 class HttpClient(object):
-    """Interface for a minimal HTTP client.
-    """
+    """Interface for a minimal HTTP client."""
 
     def close(self):
-        """Close this client resource.
-        """
-        raise NotImplementedError(
-            "%s: Method not implemented", self.__class__.__name__)
+        """Close this client resource."""
+        raise NotImplementedError("%s: Method not implemented", self.__class__.__name__)
 
     def request(self, method, url, params=None, data=None):
         """Issue an HTTP request.
@@ -39,8 +35,7 @@ class HttpClient(object):
         :type  data: Dictionary, bytes, or file-like object
         :return: Implementation specific response object
         """
-        raise NotImplementedError(
-            "%s: Method not implemented", self.__class__.__name__)
+        raise NotImplementedError("%s: Method not implemented", self.__class__.__name__)
 
     def ws_connect(self, url, params=None):
         """Create a WebSocket connection.
@@ -51,8 +46,7 @@ class HttpClient(object):
         :type  params: dict
         :return: Implmentation specific WebSocket connection object
         """
-        raise NotImplementedError(
-            "%s: Method not implemented", self.__class__.__name__)
+        raise NotImplementedError("%s: Method not implemented", self.__class__.__name__)
 
     def set_basic_auth(self, host, username, password):
         """Configures client to use HTTP Basic authentication.
@@ -61,10 +55,9 @@ class HttpClient(object):
         :param username: Username
         :param password: Password
         """
-        raise NotImplementedError(
-            "%s: Method not implemented", self.__class__.__name__)
+        raise NotImplementedError("%s: Method not implemented", self.__class__.__name__)
 
-    def set_api_key(self, host, api_key, param_name='api_key'):
+    def set_api_key(self, host, api_key, param_name="api_key"):
         """Configures client to use api_key authentication.
 
         The api_key is added to every query parameter sent.
@@ -73,8 +66,7 @@ class HttpClient(object):
         :param api_key: Value for api_key.
         :param param_name: Parameter name to use in query string.
         """
-        raise NotImplementedError(
-            "%s: Method not implemented", self.__class__.__name__)
+        raise NotImplementedError("%s: Method not implemented", self.__class__.__name__)
 
 
 class Authenticator(object):
@@ -103,8 +95,7 @@ class Authenticator(object):
 
         :param request: Request to add authentication information to.
         """
-        raise NotImplementedError("%s: Method not implemented",
-                                  self.__class__.__name__)
+        raise NotImplementedError("%s: Method not implemented", self.__class__.__name__)
 
 
 # noinspection PyDocstring
@@ -135,7 +126,7 @@ class ApiKeyAuthenticator(Authenticator):
     :param param_name: Query parameter specifying the API key.
     """
 
-    def __init__(self, host, api_key, param_name='api_key'):
+    def __init__(self, host, api_key, param_name="api_key"):
         super(ApiKeyAuthenticator, self).__init__(host)
         self.param_name = param_name
         self.api_key = api_key
@@ -146,8 +137,7 @@ class ApiKeyAuthenticator(Authenticator):
 
 # noinspection PyDocstring
 class SynchronousHttpClient(HttpClient):
-    """Synchronous HTTP client implementation.
-    """
+    """Synchronous HTTP client implementation."""
 
     def __init__(self):
         self.session = requests.Session()
@@ -160,11 +150,13 @@ class SynchronousHttpClient(HttpClient):
 
     def set_basic_auth(self, host, username, password):
         self.authenticator = BasicAuthenticator(
-            host=host, username=username, password=password)
+            host=host, username=username, password=password
+        )
 
-    def set_api_key(self, host, api_key, param_name='api_key'):
+    def set_api_key(self, host, api_key, param_name="api_key"):
         self.authenticator = ApiKeyAuthenticator(
-            host=host, api_key=api_key, param_name=param_name)
+            host=host, api_key=api_key, param_name=param_name
+        )
 
     def request(self, method, url, params=None, data=None, headers=None):
         """Requests based implementation.
@@ -173,7 +165,8 @@ class SynchronousHttpClient(HttpClient):
         :rtype:  requests.Response
         """
         req = requests.Request(
-            method=method, url=url, params=params, data=data, headers=headers)
+            method=method, url=url, params=params, data=data, headers=headers
+        )
         self.apply_authentication(req)
         return self.session.send(self.session.prepare_request(req))
 
@@ -184,22 +177,23 @@ class SynchronousHttpClient(HttpClient):
         :rtype:  websocket.WebSocket
         """
         # Build a prototype request and apply authentication to it
-        proto_req = requests.Request('GET', url, params=params)
+        proto_req = requests.Request("GET", url, params=params)
         self.apply_authentication(proto_req)
         # Prepare the request, so params will be put on the url,
         # and authenticators can manipulate headers
         preped_req = proto_req.prepare()
         # Pull the Authorization header, if needed
-        header = ["%s: %s" % (k, v)
-                  for (k, v) in preped_req.headers.items()
-                  if k == 'Authorization']
+        header = [
+            "%s: %s" % (k, v)
+            for (k, v) in preped_req.headers.items()
+            if k == "Authorization"
+        ]
         # Pull the URL, which includes query params
         url = preped_req.url
         # Requests version 2.0.0 (at least) will no longer form a URL for us
         # for ws scheme types, so we do it manually
         if params:
-            joined_params = "&".join(["%s=%s" % (k, v)
-                                     for (k, v) in params.items()])
+            joined_params = "&".join(["%s=%s" % (k, v) for (k, v) in params.items()])
             url += "?%s" % joined_params
         return websocket.create_connection(url, header=header)
 

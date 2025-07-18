@@ -4,8 +4,7 @@
 # Copyright (c) 2013, Digium, Inc.
 #
 
-"""Setup script
-"""
+"""Setup script"""
 
 import os
 
@@ -16,8 +15,7 @@ setup(
     version="0.2.1",
     license="BSD 3-Clause License",
     description="Library for accessing Swagger-enabled API's",
-    long_description=open(os.path.join(os.path.dirname(__file__),
-                                       "README.md")).read(),
+    long_description=open(os.path.join(os.path.dirname(__file__), "README.md")).read(),
     long_description_content_type="text/markdown",
     author="Digium, Inc.",
     author_email="dlee@digium.com",
@@ -35,11 +33,11 @@ setup(
         "Programming Language :: Python :: 3.8",
         "Programming Language :: Python :: 3.9",
     ],
-    python_requires='>=3.6',
+    python_requires=">=3.6",
     tests_require=["nose", "coverage", "httpretty>=1.1.4"],
     install_requires=["requests>=2.31.0", "websocket-client>=1.7.0"],
     entry_points="""
     [console_scripts]
     swagger-codegen = swaggerpy.codegen:main
-    """
+    """,
 )

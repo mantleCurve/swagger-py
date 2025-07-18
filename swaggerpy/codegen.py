@@ -4,8 +4,7 @@
 # Copyright (c) 2013, Digium, Inc.
 #
 
-"""Main entry point for codegen command line app.
-"""
+"""Main entry point for codegen command line app."""
 
 import sys
 
@@ -23,8 +22,14 @@ def main(argv=None):
         argv = sys.argv
 
     parser = OptionParser(usage=USAGE)
-    parser.add_option("-v", "--verbose", action="store_true", dest="verbose",
-                      default=False, help="Verbose output")
+    parser.add_option(
+        "-v",
+        "--verbose",
+        action="store_true",
+        dest="verbose",
+        default=False,
+        help="Verbose output",
+    )
 
     (options, args) = parser.parse_args(argv)
 
@@ -35,6 +40,7 @@ def main(argv=None):
 
     template_dir = args[1]
     output_dir = args[2]
+
 
 # And sometimes you just want to run the script...
 if __name__ == "__main__":

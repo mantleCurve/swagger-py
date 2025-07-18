@@ -13,10 +13,10 @@ class UtilTest(unittest.TestCase):
     def test_json_load_url(self):
         # Test loading a local file
         client = SynchronousHttpClient()
-        result = json_load_url(client, 'file:test-data/1.1/simple/resources.json')
+        result = json_load_url(client, "file:test-data/1.1/simple/resources.json")
         self.assertTrue(isinstance(result, dict))
-        self.assertEqual('1.1', result['swaggerVersion'])
+        self.assertEqual("1.1", result["swaggerVersion"])
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

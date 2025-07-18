@@ -4,8 +4,7 @@
 # Copyright (c) 2013, Digium, Inc.
 #
 
-"""Swagger client tests.
-"""
+"""Swagger client tests."""
 
 import httpretty
 import requests
@@ -28,7 +27,7 @@ class ClientTest(unittest.TestCase):
     @httpretty.activate
     def test_bad_param(self):
         try:
-            self.uut.pet.listPets(doesNotExist='asdf')
+            self.uut.pet.listPets(doesNotExist="asdf")
             self.fail("Expected type error")
         except TypeError:
             pass
@@ -44,8 +43,8 @@ class ClientTest(unittest.TestCase):
     @httpretty.activate
     def test_get(self):
         httpretty.register_uri(
-            httpretty.GET, "http://swagger.py/swagger-test/pet",
-            body='[]')
+            httpretty.GET, "http://swagger.py/swagger-test/pet", body="[]"
+        )
 
         resp = self.uut.pet.listPets()
         self.assertEqual(200, resp.status_code)
@@ -54,37 +53,39 @@ class ClientTest(unittest.TestCase):
     @httpretty.activate
     def test_multiple(self):
         httpretty.register_uri(
-            httpretty.GET, "http://swagger.py/swagger-test/pet/find",
-            body='[]')
+            httpretty.GET, "http://swagger.py/swagger-test/pet/find", body="[]"
+        )
 
-        resp = self.uut.pet.findPets(species=['cat', 'dog'])
+        resp = self.uut.pet.findPets(species=["cat", "dog"])
         self.assertEqual(200, resp.status_code)
         self.assertEqual([], resp.json())
-        self.assertEqual({'species': ['cat,dog']},
-                         httpretty.last_request().querystring)
+        self.assertEqual({"species": ["cat,dog"]}, httpretty.last_request().querystring)
 
     @httpretty.activate
     def test_post(self):
         httpretty.register_uri(
-            httpretty.POST, "http://swagger.py/swagger-test/pet",
+            httpretty.POST,
+            "http://swagger.py/swagger-test/pet",
             status=requests.codes.created,
-            body='{"id": 1234, "name": "Sparky"}')
+            body='{"id": 1234, "name": "Sparky"}',
+        )
 
-        resp = self.uut.pet.createPet(name='Sparky')
+        resp = self.uut.pet.createPet(name="Sparky")
         self.assertEqual(requests.codes.created, resp.status_code)
         self.assertEqual({"id": 1234, "name": "Sparky"}, resp.json())
-        self.assertEqual({'name': ['Sparky']},
-                         httpretty.last_request().querystring)
+        self.assertEqual({"name": ["Sparky"]}, httpretty.last_request().querystring)
 
     @httpretty.activate
     def test_delete(self):
         httpretty.register_uri(
-            httpretty.DELETE, "http://swagger.py/swagger-test/pet/1234",
-            status=requests.codes.no_content)
+            httpretty.DELETE,
+            "http://swagger.py/swagger-test/pet/1234",
+            status=requests.codes.no_content,
+        )
 
         resp = self.uut.pet.deletePet(petId=1234)
         self.assertEqual(requests.codes.no_content, resp.status_code)
-        self.assertEqual(b'', resp.content)
+        self.assertEqual(b"", resp.content)
 
     def setUp(self):
         # Default handlers for all swagger.py access
@@ -103,10 +104,7 @@ class ClientTest(unittest.TestCase):
                             {
                                 "path": "/pet",
                                 "operations": [
-                                    {
-                                        "httpMethod": "GET",
-                                        "nickname": "listPets"
-                                    },
+                                    {"httpMethod": "GET", "nickname": "listPets"},
                                     {
                                         "httpMethod": "POST",
                                         "nickname": "createPet",
@@ -115,11 +113,11 @@ class ClientTest(unittest.TestCase):
                                                 "name": "name",
                                                 "paramType": "query",
                                                 "dataType": "string",
-                                                "required": True
+                                                "required": True,
                                             }
-                                        ]
-                                    }
-                                ]
+                                        ],
+                                    },
+                                ],
                             },
                             {
                                 "path": "/pet/find",
@@ -132,11 +130,11 @@ class ClientTest(unittest.TestCase):
                                                 "name": "species",
                                                 "paramType": "query",
                                                 "dataType": "string",
-                                                "allowMultiple": True
+                                                "allowMultiple": True,
                                             }
-                                        ]
+                                        ],
                                     }
-                                ]
+                                ],
                             },
                             {
                                 "path": "/pet/{petId}",
@@ -145,22 +143,19 @@ class ClientTest(unittest.TestCase):
                                         "httpMethod": "DELETE",
                                         "nickname": "deletePet",
                                         "parameters": [
-                                            {
-                                                "name": "petId",
-                                                "paramType": "path"
-                                            }
-                                        ]
+                                            {"name": "petId", "paramType": "path"}
+                                        ],
                                     }
-                                ]
-                            }
+                                ],
+                            },
                         ],
-                        "models": {}
-                    }
+                        "models": {},
+                    },
                 }
-            ]
+            ],
         }
         self.uut = SwaggerClient(self.resource_listing)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

@@ -3,8 +3,8 @@
 - Added Python 3.6+ compatibility
 - Updated dependencies to modern versions:
   - httpretty>=1.1.4
-  - requests>=2.28.0
-  - websocket-client>=1.6.0
+  - requests>=2.31.0
+  - websocket-client>=1.7.0
 - Removed Python 2 support
 - Updated test suite to use unittest instead of nose
 

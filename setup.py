@@ -37,7 +37,7 @@ setup(
     ],
     python_requires='>=3.6',
     tests_require=["nose", "coverage", "httpretty>=1.1.4"],
-    install_requires=["requests>=2.25.0", "websocket-client>=1.0.0"],
+    install_requires=["requests>=2.31.0", "websocket-client>=1.7.0"],
     entry_points="""
     [console_scripts]
     swagger-codegen = swaggerpy.codegen:main
